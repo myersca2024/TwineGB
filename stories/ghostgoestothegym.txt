@@ -1,0 +1,127 @@
+@ Ghost Goes to the Gym \;
+{
+    # 0 \;
+    & The sun rises slowly over the tops of the buildings of the city. As light fills the air, Peter Ghostman finds himself draging -- or well, floating his way drearily through the streets. \;
+}
+{
+    # 1 \;
+    & Busy as they are, being a Monday, Ghostman floats solemnly along, phasing through the crowds unnoticed. \"Another pointless day,\" he sighs, \"and another day unnoticed. How many days has it even been?\" And how many indeed has it been since the last time he was seen, felt, or heard by anyone. He continus to sulk around, eventually looking at his reflection in the window of a storefront. \;
+}
+{
+    # 2 \;
+    & For someone who had spent his whole life human, it's still jarring to look at his reflection. Ghostman looks at his translucent white amorphous body and frowns. Locking eyes with himself in the window, a sudden noise causes his gaze slowly starts to focus on what's going on behind the window. \;
+}
+{
+    # 3 \;
+    & There's a bunch of people in here on various machines. It looks like... a gym! Maybe it was fate that brought me here. Enticed by the idea of joining in with all these people, he feels compelled to float inside. Though in life, he really never was much of a gym goer. \;
+    ! Float inside. //! 5 \;
+    ! Don't go inside. //! 4 \;
+}
+{
+    # 4 \;
+    & \"Eh, what's the point? I'm not human anymore anyways. Can't change myself now!\" And with that, Peter Ghostman floats down the avenue without looking back, and resumes his sulking. \;
+    ~
+}
+{
+    # 5 \;
+    & Once inside, the atmosphere overwhelms him almost instantly. The intense sights, smells, and sounds are almost too much to bear. The loud banging of heavy weights being dropped mixed in with the sounds of music and conversation make his own thoughts feel quiet. In fact, it was almost making him second guess coming here at all. \"But leaving means going back on that street dejected, and perhaps its best to preserve whatever self-pride I've got left!\" \;
+}
+{
+    # 6 \;
+    & Floating past the check-in desk, Ghostman freezes once again. Where to begin? \;
+    ! Track and Cardio Area //! 7 \;
+    ! Weights Area //! 8 \;
+}
+{
+    # 7 \;
+    & Everything in here seems pretty straightforward. There's machines to run on and a circular surface to run on. There's plenty of people running in the areas that you're supposed to run in. \"Maybe I should go for a run\" he thinks. \"But also, running is boring.\" \;
+    ! Go for a run. //! 9 \;
+    ! Don't run. //! 6 \;
+}
+{
+    # 8 \;
+    & Turning the corner into the weights area, Ghostman experiences that same feeling when he first floated in, but much more concentrated. The densely packed area makes him glad to be incorporeal, allowing him to float through the hoard of humans. It seems like most of the spots are taken, but there's a few things open. \;
+    ! Bench Press //! 10 \;
+    ! Squat Rack //! 11 \;
+}
+{
+    # 9 \;
+    & Ghostman begins floating around the large oval at a faster rate than he would normally. As fun as it is, he gets a little bored after a while, and decides to move forward to the Weights Area. \;
+    ! Go to the weights area. //! 8 \;
+}
+{
+    # 10 \;
+    & Ghostman floats down onto the bench, extending his ghostly mass to grip the bar. Bringing the bar down to where his chest should be, and pushes the bar back up. Though, it could hardly be considered pushing. It's more that he was able to levitate the bar back up. Just for fun, Ghostman decides to add as much weight as possible to the bar, and then \"lift\" it for 10 reps. He has a chuckle to himself and moves on to the Squat Rack. \;
+    ! Go to the squat rack. //! 11 \;
+}
+{
+    # 11 \;
+    & As he approaches the one squat rack that's open, he can't help but notice the person occupying the rack next to him. This absolute unit of a man almost looks like the stereotype of a man who spends all his free time at the gym. He looks like one of those anatomical models you'd see in a biology class, except with skin and a really handsome face. He lets out a massive grunt as he locks out his last deadlift, slamming the weights to the floor. \"God, he's so obnoxious,\" Ghostman thinks to himself. \"I can barely even hear myself think\" Should I try to keep going with my lift, or should I maybe do something devious. \;
+    ! Keep going with the lift //! 12 \;
+    ! Do something devious. //! 13 \;
+}
+{
+    # 12 \;
+    & Ghostman tries to continue his lift, but, after being distracted by this man for too long, he gives up and leaves the gym. \;
+    ~
+}
+{
+    # 13 \;
+    & \"Y'know what? I'm sick of this guy.\" The way Ghostman sees it, there's two paths he can take. This guy is currently resting, preparing for his next set. He could either mess with him during his next set, or he could just straight up possess him. \;
+    ! Mess with him. //! 14 \;
+    ! Possess him. //! 16 \;
+}
+{
+    # 14 \;
+    & As the man stands up and starts stretching, preparing for his next set, Ghostman takes this as his cue. Using his powers, he doubles the weight. \"Oh this dude's totally gonna throw a fit when he can't pick this up.\" The man bends down to pick the weight, and is audibly struggling. After a few seconds of sputtering and grunting, he backs away from the weight, and just goes back to resting. \"Well that was disappointing. I was expecting a bit more of a freakout. Should I leave him alone or possess him?\" \;
+    ! Leave him alone. //! 15 \;
+    ! Possess him. //! 16 \;
+}
+{
+    # 15 \;
+    & Ghostman decides he's had enough messing with someone who, while obnoxious, hasn't really done anything wrong. After completing his next set at the squat rack, he decides that his brief excursion to the gym is finished. \"That was fun, I guess. Kind of pointless though. I don't think I'm gonna come back.\" END. \;
+    ~
+}
+{
+    # 16 \;
+    & Ghostman approaches the man slowly. Despite being right up to his face, the man peers right through him. Unnoticed, he floats forward until he's physically touching the man and then. All in an instant. \;
+}
+{ 
+    # 17 \;
+    & Everything rushes in. His mind is quickly forced to adjust to the sensation returning to his now physical form. The light rushing into his eyes, sound into his ears, and the feeling of air and clothing pressing against his skin, all of it foreign to him. After 15 seconds that feel like an hour, he looks down. A pair of legs, and some hands. He looks at the hands, opening and closing them. These hands belong to him now. It's been so long since he's felt in control, and the feeling of finally getting every back that he lost is more than overwhelming. And then, he looks up. \;
+}
+{
+    # 18 \;
+    & The mirror wall that lines the weight room reveals his new reflection. \"The more I think about this, this guy -- or me, I guess -- looks like how I used to, just in better shape.\" Then suddenly, he feels a vibration in his pocket. Pulling out his phone, there's a text that reads: \nMom: \"Hi Gordie! Are you busy right now?\" \;
+    ! Answer it. //! 19 \;
+    ! Ignore it. //! 20 \;
+}
+{
+    # 19 \;
+    & \"Hm, I suppose I should answer that. Gordie, huh? I guess that's my name now.\" He goes to answer the text, and then encounters quite the big issue: he has no idea what the password is. 1234 - Nothing. 1111 - Nothing again. Before locking himself out, he hears something in the back of his mind: 2794. Upon typing the number, the phone opens. \"That was strange, how did I know that?\" \;
+    ! Disregard it. //! 21 \;
+    ! Attempt to investigate. //! 22 \;
+}
+{
+    #20 \;
+    & \"That's fine, I'll just not answer the message. I'm not this Gordie guy anyways.\" \"That's right. I'm Gordie, and you're occupying my body. Now answer my mother.\" \;
+}
+{
+    # 21 \;
+    & \"Whatever, I'll just tell her I'm busy.\" \"You aren't busy though.\" \"But I don't know how to answer, she's not my mom.\" \"Right, but she's my mom. She's a lonely woman and she just wants to hear from me. Tell her you're not busy.\" Ghostman tries to protest by putting the phone away, but to no avail. \"What the hell? This is my body now, why am I not in control???\" \"But its my body.\" \;
+    ! Continue talking. //! 23 \;
+}
+{
+    # 22 \;
+    & \"I guess I've never possessed anyone before, so I don't really know how this works. Is anyone there?\" \"Uhhhh yeah. I'm here. In my body.\" \"Oh that's weird. I always thought that when we possess people it like, supresses their consciousness or something. Guess not.\" \"'Guess not?' How can you be so casual about this?\" \"Well because I thought I would just get to use my new body how I wanted to.\" \"But its my body.\" \;
+    ! Continue talking. //! 23 \;
+}
+{
+    # 23 \;
+    & \"I mean, yeah I guess you're right, but you're annoying and weren't using it well.\" \"Says you. You don't know me. You don't know my life. Let me just get this straight - you decided you wanted to take my bodily autonomy away because you were annoyed by me?\" \"Uh, to be honest, I don't really know. I think it's because I was kind of well, jealous.\" \"I understand man. I used to be really unsatisfied with how I was too. But I worked hard for it to get to where I am now. You can't just take these massive shortcuts because at the end of the day, even if you see physical progress, there's no mental progress.\" \"Yeah, I guess that makes sense.\" \;
+}
+{
+    # 24 \;
+    & Ghostman disconnects himself from Gordie's body. He looks up guiltily, and as he starts to float away he notices something that he hasn't felt in forever -- actual eye contact. Gordie is looking him, straight in the eyes. But the look is not one of disdain. \"What's your name?\" \"Oh, uh, um, Peter.\" \"It's nice to meet you Peter. We should lift together some time!\" END \;
+    ~
+}

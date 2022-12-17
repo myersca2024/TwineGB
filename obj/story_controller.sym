@@ -1,0 +1,68 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+  0 ___str_0                                                       000124 R
+  0 ___str_1                                                       000126 R
+  7 __xinit__current_page                                          000000 R
+  7 __xinit__current_section                                       000001 R
+  7 __xinit__current_transition                                    000002 R
+  7 __xinit__page_phase                                            000004 R
+  7 __xinit__title_phase                                           000003 R
+  7 __xinit__transition_phase                                      000005 R
+  0 _clear_screen                                                  000000 GR
+    _cls                                                           ****** GX
+  2 _current_page                                                  000000 GR
+  2 _current_section                                               000001 GR
+  2 _current_transition                                            000002 GR
+  0 _display_current_text                                          0001F0 GR
+  0 _display_page_section                                          00001C GR
+  0 _display_title                                                 00000B GR
+  0 _display_transition_options                                    00002F GR
+    _get_num_sections                                              ****** GX
+    _get_num_transitions                                           ****** GX
+    _get_page_section                                              ****** GX
+    _get_page_transition                                           ****** GX
+    _get_title_text                                                ****** GX
+    _get_transition_destination                                    ****** GX
+    _gotoxy                                                        ****** GX
+  0 _handle_input                                                  000287 GR
+  0 _handle_page_input                                             000223 GR
+  0 _handle_title_input                                            00020C GR
+  0 _handle_transition_input                                       00023C GR
+    _is_end_card                                                   ****** GX
+    _joypad                                                        ****** GX
+  0 _move_cursor                                                   000081 GR
+  0 _move_cursor_down                                              000134 GR
+  0 _move_cursor_up                                                000128 GR
+  0 _next_section                                                  000189 GR
+  2 _page_phase                                                    000004 GR
+  0 _previous_section                                              0001E6 GR
+    _printf                                                        ****** GX
+    _strlen                                                        ****** GX
+  2 _title_phase                                                   000003 GR
+  2 _transition_phase                                              000005 GR
+  0 _transition_to_page                                            000169 GR
+    _waitpadup                                                     ****** GX
+
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size    2A0   flags    0
+   1 _DATA                                      size      0   flags    0
+   2 _INITIALIZED                               size      6   flags    0
+   3 _DABS                                      size      0   flags    8
+   4 _HOME                                      size      0   flags    0
+   5 _GSINIT                                    size      0   flags    0
+   6 _GSFINAL                                   size      0   flags    0
+   7 _INITIALIZER                               size      6   flags    0
+   8 _CABS                                      size      0   flags    8
+

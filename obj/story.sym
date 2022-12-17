@@ -1,0 +1,42 @@
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 1.
+Hexadecimal [24-Bits]
+
+Symbol Table
+
+    .__.$$$.                                                    =  002710 L
+    .__.ABS.                                                    =  000000 G
+    .__.CPU.                                                    =  000000 L
+    .__.H$L.                                                    =  000000 L
+  0 _end_cards                                                     0069FD GR
+  0 _get_num_pages                                                 006A65 GR
+  0 _get_num_sections                                              006A6A GR
+  0 _get_num_transitions                                           006A78 GR
+  0 _get_page_section                                              006A02 GR
+  0 _get_page_transition                                           006A3E GR
+  0 _get_title_text                                                000000 GR
+  0 _get_transition_destination                                    006A86 GR
+  0 _is_end_card                                                   006A9A GR
+  0 _num_end_cards                                                 006A01 GR
+  0 _num_pages                                                     006998 GR
+  0 _num_sections                                                  006999 GR
+  0 _num_transitions                                               0069B2 GR
+  0 _page_text                                                     000020 GR
+  0 _title                                                         000004 GR
+  0 _transition_dests                                              0069CB GR
+  0 _transition_text                                               0063BC GR
+
+ASxxxx Assembler V02.00 + NoICE + SDCC mods  (GameBoy Z80-like CPU), page 2.
+Hexadecimal [24-Bits]
+
+Area Table
+
+   0 _CODE                                      size   6ACF   flags    0
+   1 _DATA                                      size      0   flags    0
+   2 _INITIALIZED                               size      0   flags    0
+   3 _DABS                                      size      0   flags    8
+   4 _HOME                                      size      0   flags    0
+   5 _GSINIT                                    size      0   flags    0
+   6 _GSFINAL                                   size      0   flags    0
+   7 _INITIALIZER                               size      0   flags    0
+   8 _CABS                                      size      0   flags    8
+

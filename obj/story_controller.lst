@@ -1,0 +1,688 @@
+                                      1 ;--------------------------------------------------------
+                                      2 ; File Created by SDCC : free open source ANSI-C Compiler
+                                      3 ; Version 4.1.6 #12539 (Mac OS X x86_64)
+                                      4 ;--------------------------------------------------------
+                                      5 	.module story_controller
+                                      6 	.optsdcc -mgbz80
+                                      7 	
+                                      8 ;--------------------------------------------------------
+                                      9 ; Public variables in this module
+                                     10 ;--------------------------------------------------------
+                                     11 	.globl _handle_transition_input
+                                     12 	.globl _handle_page_input
+                                     13 	.globl _handle_title_input
+                                     14 	.globl _previous_section
+                                     15 	.globl _next_section
+                                     16 	.globl _transition_to_page
+                                     17 	.globl _move_cursor_down
+                                     18 	.globl _move_cursor_up
+                                     19 	.globl _move_cursor
+                                     20 	.globl _display_transition_options
+                                     21 	.globl _display_page_section
+                                     22 	.globl _display_title
+                                     23 	.globl _clear_screen
+                                     24 	.globl _is_end_card
+                                     25 	.globl _get_transition_destination
+                                     26 	.globl _get_num_transitions
+                                     27 	.globl _get_num_sections
+                                     28 	.globl _get_page_transition
+                                     29 	.globl _get_page_section
+                                     30 	.globl _get_title_text
+                                     31 	.globl _strlen
+                                     32 	.globl _cls
+                                     33 	.globl _gotoxy
+                                     34 	.globl _printf
+                                     35 	.globl _waitpadup
+                                     36 	.globl _joypad
+                                     37 	.globl _transition_phase
+                                     38 	.globl _page_phase
+                                     39 	.globl _title_phase
+                                     40 	.globl _current_transition
+                                     41 	.globl _current_section
+                                     42 	.globl _current_page
+                                     43 	.globl _display_current_text
+                                     44 	.globl _handle_input
+                                     45 ;--------------------------------------------------------
+                                     46 ; special function registers
+                                     47 ;--------------------------------------------------------
+                                     48 ;--------------------------------------------------------
+                                     49 ; ram data
+                                     50 ;--------------------------------------------------------
+                                     51 	.area _DATA
+                                     52 ;--------------------------------------------------------
+                                     53 ; ram data
+                                     54 ;--------------------------------------------------------
+                                     55 	.area _INITIALIZED
+      000000                         56 _current_page::
+      000000                         57 	.ds 1
+      000001                         58 _current_section::
+      000001                         59 	.ds 1
+      000002                         60 _current_transition::
+      000002                         61 	.ds 1
+      000003                         62 _title_phase::
+      000003                         63 	.ds 1
+      000004                         64 _page_phase::
+      000004                         65 	.ds 1
+      000005                         66 _transition_phase::
+      000005                         67 	.ds 1
+                                     68 ;--------------------------------------------------------
+                                     69 ; absolute external ram data
+                                     70 ;--------------------------------------------------------
+                                     71 	.area _DABS (ABS)
+                                     72 ;--------------------------------------------------------
+                                     73 ; global & static initialisations
+                                     74 ;--------------------------------------------------------
+                                     75 	.area _HOME
+                                     76 	.area _GSINIT
+                                     77 	.area _GSFINAL
+                                     78 	.area _GSINIT
+                                     79 ;--------------------------------------------------------
+                                     80 ; Home
+                                     81 ;--------------------------------------------------------
+                                     82 	.area _HOME
+                                     83 	.area _HOME
+                                     84 ;--------------------------------------------------------
+                                     85 ; code
+                                     86 ;--------------------------------------------------------
+                                     87 	.area _CODE
+                                     88 ;src/story_controller.c:11: void clear_screen() {
+                                     89 ;	---------------------------------
+                                     90 ; Function clear_screen
+                                     91 ; ---------------------------------
+      000000                         92 _clear_screen::
+                                     93 ;src/story_controller.c:12: cls();
+      000000 CDr00r00                94 	call	_cls
+                                     95 ;src/story_controller.c:13: gotoxy(0, 0);
+      000003 AF                      96 	xor	a, a
+      000004 0F                      97 	rrca
+      000005 F5                      98 	push	af
+      000006 CDr00r00                99 	call	_gotoxy
+      000009 E1                     100 	pop	hl
+                                    101 ;src/story_controller.c:14: }
+      00000A C9                     102 	ret
+                                    103 ;src/story_controller.c:16: void display_title() {
+                                    104 ;	---------------------------------
+                                    105 ; Function display_title
+                                    106 ; ---------------------------------
+      00000B                        107 _display_title::
+                                    108 ;src/story_controller.c:17: gotoxy(0, 8);
+      00000B 21 00 08               109 	ld	hl, #0x800
+      00000E E5                     110 	push	hl
+      00000F CDr00r00               111 	call	_gotoxy
+      000012 E1                     112 	pop	hl
+                                    113 ;src/story_controller.c:18: printf(get_title_text());
+      000013 CDr00r00               114 	call	_get_title_text
+      000016 D5                     115 	push	de
+      000017 CDr00r00               116 	call	_printf
+      00001A E1                     117 	pop	hl
+                                    118 ;src/story_controller.c:19: }
+      00001B C9                     119 	ret
+                                    120 ;src/story_controller.c:21: void display_page_section() {
+                                    121 ;	---------------------------------
+                                    122 ; Function display_page_section
+                                    123 ; ---------------------------------
+      00001C                        124 _display_page_section::
+                                    125 ;src/story_controller.c:22: printf(get_page_section(current_page, current_section));
+      00001C FAr01r00               126 	ld	a, (#_current_section)
+      00001F 67                     127 	ld	h, a
+      000020 FAr00r00               128 	ld	a, (#_current_page)
+      000023 6F                     129 	ld	l, a
+      000024 E5                     130 	push	hl
+      000025 CDr00r00               131 	call	_get_page_section
+      000028 E1                     132 	pop	hl
+      000029 D5                     133 	push	de
+      00002A CDr00r00               134 	call	_printf
+      00002D E1                     135 	pop	hl
+                                    136 ;src/story_controller.c:23: }
+      00002E C9                     137 	ret
+                                    138 ;src/story_controller.c:25: void display_transition_options() {
+                                    139 ;	---------------------------------
+                                    140 ; Function display_transition_options
+                                    141 ; ---------------------------------
+      00002F                        142 _display_transition_options::
+                                    143 ;src/story_controller.c:26: uint8_t y_level = 1;
+                                    144 ;src/story_controller.c:27: for (uint8_t i = 0; i < get_num_transitions(current_page); ++i) {
+      00002F 01 01 00               145 	ld	bc, #0x1
+      000032                        146 00103$:
+      000032 C5                     147 	push	bc
+      000033 FAr00r00               148 	ld	a, (#_current_page)
+      000036 F5                     149 	push	af
+      000037 33                     150 	inc	sp
+      000038 CDr00r00               151 	call	_get_num_transitions
+      00003B 33                     152 	inc	sp
+      00003C C1                     153 	pop	bc
+      00003D 78                     154 	ld	a, b
+      00003E 93                     155 	sub	a, e
+      00003F D0                     156 	ret	NC
+                                    157 ;src/story_controller.c:28: gotoxy(1, y_level);
+      000040 C5                     158 	push	bc
+      000041 61                     159 	ld	h, c
+      000042 2E 01                  160 	ld	l, #0x01
+      000044 E5                     161 	push	hl
+      000045 CDr00r00               162 	call	_gotoxy
+      000048 E1                     163 	pop	hl
+      000049 C1                     164 	pop	bc
+                                    165 ;src/story_controller.c:29: printf(get_page_transition(current_page, i));
+      00004A C5                     166 	push	bc
+      00004B C5                     167 	push	bc
+      00004C 33                     168 	inc	sp
+      00004D FAr00r00               169 	ld	a, (#_current_page)
+      000050 F5                     170 	push	af
+      000051 33                     171 	inc	sp
+      000052 CDr00r00               172 	call	_get_page_transition
+      000055 E1                     173 	pop	hl
+      000056 D5                     174 	push	de
+      000057 CDr00r00               175 	call	_printf
+      00005A E1                     176 	pop	hl
+      00005B C1                     177 	pop	bc
+                                    178 ;src/story_controller.c:30: y_level += (1 + (strlen(get_page_transition(current_page, i)) >> 3));
+      00005C C5                     179 	push	bc
+      00005D C5                     180 	push	bc
+      00005E 33                     181 	inc	sp
+      00005F FAr00r00               182 	ld	a, (#_current_page)
+      000062 F5                     183 	push	af
+      000063 33                     184 	inc	sp
+      000064 CDr00r00               185 	call	_get_page_transition
+      000067 E1                     186 	pop	hl
+      000068 C1                     187 	pop	bc
+      000069 D5                     188 	push	de
+      00006A CDr00r00               189 	call	_strlen
+      00006D E1                     190 	pop	hl
+      00006E CB 2A                  191 	sra	d
+      000070 CB 1B                  192 	rr	e
+      000072 CB 2A                  193 	sra	d
+      000074 CB 1B                  194 	rr	e
+      000076 CB 2A                  195 	sra	d
+      000078 CB 1B                  196 	rr	e
+      00007A 7B                     197 	ld	a, e
+      00007B 3C                     198 	inc	a
+      00007C 81                     199 	add	a, c
+      00007D 4F                     200 	ld	c, a
+                                    201 ;src/story_controller.c:27: for (uint8_t i = 0; i < get_num_transitions(current_page); ++i) {
+      00007E 04                     202 	inc	b
+                                    203 ;src/story_controller.c:32: }
+      00007F 18 B1                  204 	jr	00103$
+                                    205 ;src/story_controller.c:34: void move_cursor() {
+                                    206 ;	---------------------------------
+                                    207 ; Function move_cursor
+                                    208 ; ---------------------------------
+      000081                        209 _move_cursor::
+                                    210 ;src/story_controller.c:35: uint8_t y_level = 1;
+                                    211 ;src/story_controller.c:36: for (uint8_t i = 0; i < current_transition; i++) {
+      000081 01 00 01               212 	ld	bc, #0x100
+      000084                        213 00104$:
+      000084 79                     214 	ld	a, c
+      000085 21r02r00               215 	ld	hl, #_current_transition
+      000088 96                     216 	sub	a, (hl)
+      000089 30 3B                  217 	jr	NC, 00101$
+                                    218 ;src/story_controller.c:37: gotoxy(0, y_level);
+      00008B C5                     219 	push	bc
+      00008C C5                     220 	push	bc
+      00008D 33                     221 	inc	sp
+      00008E AF                     222 	xor	a, a
+      00008F F5                     223 	push	af
+      000090 33                     224 	inc	sp
+      000091 CDr00r00               225 	call	_gotoxy
+      000094 E1                     226 	pop	hl
+      000095 C1                     227 	pop	bc
+                                    228 ;src/story_controller.c:38: y_level += (1 + (strlen(get_page_transition(current_page, i)) >> 3));
+      000096 C5                     229 	push	bc
+      000097 79                     230 	ld	a, c
+      000098 F5                     231 	push	af
+      000099 33                     232 	inc	sp
+      00009A FAr00r00               233 	ld	a, (#_current_page)
+      00009D F5                     234 	push	af
+      00009E 33                     235 	inc	sp
+      00009F CDr00r00               236 	call	_get_page_transition
+      0000A2 E1                     237 	pop	hl
+      0000A3 C1                     238 	pop	bc
+      0000A4 D5                     239 	push	de
+      0000A5 CDr00r00               240 	call	_strlen
+      0000A8 E1                     241 	pop	hl
+      0000A9 CB 2A                  242 	sra	d
+      0000AB CB 1B                  243 	rr	e
+      0000AD CB 2A                  244 	sra	d
+      0000AF CB 1B                  245 	rr	e
+      0000B1 CB 2A                  246 	sra	d
+      0000B3 CB 1B                  247 	rr	e
+      0000B5 7B                     248 	ld	a, e
+      0000B6 3C                     249 	inc	a
+      0000B7 80                     250 	add	a, b
+      0000B8 47                     251 	ld	b, a
+                                    252 ;src/story_controller.c:39: printf(" ");
+      0000B9 C5                     253 	push	bc
+      0000BA 11r24r01               254 	ld	de, #___str_0
+      0000BD D5                     255 	push	de
+      0000BE CDr00r00               256 	call	_printf
+      0000C1 E1                     257 	pop	hl
+      0000C2 C1                     258 	pop	bc
+                                    259 ;src/story_controller.c:36: for (uint8_t i = 0; i < current_transition; i++) {
+      0000C3 0C                     260 	inc	c
+      0000C4 18 BE                  261 	jr	00104$
+      0000C6                        262 00101$:
+                                    263 ;src/story_controller.c:41: gotoxy(0, y_level);
+      0000C6 C5                     264 	push	bc
+      0000C7 C5                     265 	push	bc
+      0000C8 33                     266 	inc	sp
+      0000C9 AF                     267 	xor	a, a
+      0000CA F5                     268 	push	af
+      0000CB 33                     269 	inc	sp
+      0000CC CDr00r00               270 	call	_gotoxy
+      0000CF E1                     271 	pop	hl
+      0000D0 11r26r01               272 	ld	de, #___str_1
+      0000D3 D5                     273 	push	de
+      0000D4 CDr00r00               274 	call	_printf
+      0000D7 E1                     275 	pop	hl
+      0000D8 C1                     276 	pop	bc
+                                    277 ;src/story_controller.c:43: for (uint8_t i = current_transition; i < get_num_transitions(current_page); i++) {
+      0000D9 21r02r00               278 	ld	hl, #_current_transition
+      0000DC 4E                     279 	ld	c, (hl)
+      0000DD                        280 00107$:
+      0000DD C5                     281 	push	bc
+      0000DE FAr00r00               282 	ld	a, (#_current_page)
+      0000E1 F5                     283 	push	af
+      0000E2 33                     284 	inc	sp
+      0000E3 CDr00r00               285 	call	_get_num_transitions
+      0000E6 33                     286 	inc	sp
+      0000E7 C1                     287 	pop	bc
+      0000E8 79                     288 	ld	a, c
+      0000E9 93                     289 	sub	a, e
+      0000EA D0                     290 	ret	NC
+                                    291 ;src/story_controller.c:44: y_level += (1 + (strlen(get_page_transition(current_page, i)) >> 3));
+      0000EB C5                     292 	push	bc
+      0000EC 79                     293 	ld	a, c
+      0000ED F5                     294 	push	af
+      0000EE 33                     295 	inc	sp
+      0000EF FAr00r00               296 	ld	a, (#_current_page)
+      0000F2 F5                     297 	push	af
+      0000F3 33                     298 	inc	sp
+      0000F4 CDr00r00               299 	call	_get_page_transition
+      0000F7 E1                     300 	pop	hl
+      0000F8 C1                     301 	pop	bc
+      0000F9 D5                     302 	push	de
+      0000FA CDr00r00               303 	call	_strlen
+      0000FD E1                     304 	pop	hl
+      0000FE CB 2A                  305 	sra	d
+      000100 CB 1B                  306 	rr	e
+      000102 CB 2A                  307 	sra	d
+      000104 CB 1B                  308 	rr	e
+      000106 CB 2A                  309 	sra	d
+      000108 CB 1B                  310 	rr	e
+      00010A 7B                     311 	ld	a, e
+      00010B 3C                     312 	inc	a
+      00010C 80                     313 	add	a, b
+      00010D 47                     314 	ld	b, a
+                                    315 ;src/story_controller.c:45: gotoxy(0, y_level);
+      00010E C5                     316 	push	bc
+      00010F C5                     317 	push	bc
+      000110 33                     318 	inc	sp
+      000111 AF                     319 	xor	a, a
+      000112 F5                     320 	push	af
+      000113 33                     321 	inc	sp
+      000114 CDr00r00               322 	call	_gotoxy
+      000117 E1                     323 	pop	hl
+      000118 11r24r01               324 	ld	de, #___str_0
+      00011B D5                     325 	push	de
+      00011C CDr00r00               326 	call	_printf
+      00011F E1                     327 	pop	hl
+      000120 C1                     328 	pop	bc
+                                    329 ;src/story_controller.c:43: for (uint8_t i = current_transition; i < get_num_transitions(current_page); i++) {
+      000121 0C                     330 	inc	c
+                                    331 ;src/story_controller.c:48: }
+      000122 18 B9                  332 	jr	00107$
+      000124                        333 ___str_0:
+      000124 20                     334 	.ascii " "
+      000125 00                     335 	.db 0x00
+      000126                        336 ___str_1:
+      000126 3E                     337 	.ascii ">"
+      000127 00                     338 	.db 0x00
+                                    339 ;src/story_controller.c:50: void move_cursor_up() {
+                                    340 ;	---------------------------------
+                                    341 ; Function move_cursor_up
+                                    342 ; ---------------------------------
+      000128                        343 _move_cursor_up::
+                                    344 ;src/story_controller.c:51: if (current_transition > 0) {
+      000128 21r02r00               345 	ld	hl, #_current_transition
+      00012B 7E                     346 	ld	a, (hl)
+      00012C B7                     347 	or	a, a
+      00012D CAr81r00               348 	jp	Z,_move_cursor
+                                    349 ;src/story_controller.c:52: current_transition--;
+      000130 35                     350 	dec	(hl)
+                                    351 ;src/story_controller.c:54: move_cursor();
+                                    352 ;src/story_controller.c:55: }
+      000131 C3r81r00               353 	jp	_move_cursor
+                                    354 ;src/story_controller.c:57: void move_cursor_down() {
+                                    355 ;	---------------------------------
+                                    356 ; Function move_cursor_down
+                                    357 ; ---------------------------------
+      000134                        358 _move_cursor_down::
+                                    359 ;src/story_controller.c:58: if (current_transition + 1 < get_num_transitions(current_page)) {
+      000134 21r02r00               360 	ld	hl, #_current_transition
+      000137 4E                     361 	ld	c, (hl)
+      000138 06 00                  362 	ld	b, #0x00
+      00013A 03                     363 	inc	bc
+      00013B C5                     364 	push	bc
+      00013C FAr00r00               365 	ld	a, (#_current_page)
+      00013F F5                     366 	push	af
+      000140 33                     367 	inc	sp
+      000141 CDr00r00               368 	call	_get_num_transitions
+      000144 33                     369 	inc	sp
+      000145 C1                     370 	pop	bc
+      000146 6B                     371 	ld	l, e
+                                    372 ;	spillPairReg hl
+                                    373 ;	spillPairReg hl
+      000147 26 00                  374 	ld	h, #0x00
+                                    375 ;	spillPairReg hl
+                                    376 ;	spillPairReg hl
+      000149 5C                     377 	ld	e, h
+      00014A 50                     378 	ld	d, b
+      00014B 79                     379 	ld	a, c
+      00014C 95                     380 	sub	a, l
+      00014D 78                     381 	ld	a, b
+      00014E 9C                     382 	sbc	a, h
+      00014F CB 7B                  383 	bit	7, e
+      000151 28 07                  384 	jr	Z, 00110$
+      000153 CB 7A                  385 	bit	7, d
+      000155 20 08                  386 	jr	NZ, 00111$
+      000157 BF                     387 	cp	a, a
+      000158 18 05                  388 	jr	00111$
+      00015A                        389 00110$:
+      00015A CB 7A                  390 	bit	7, d
+      00015C 28 01                  391 	jr	Z, 00111$
+      00015E 37                     392 	scf
+      00015F                        393 00111$:
+      00015F D2r81r00               394 	jp	NC,_move_cursor
+                                    395 ;src/story_controller.c:59: current_transition++;
+      000162 21r02r00               396 	ld	hl, #_current_transition
+      000165 34                     397 	inc	(hl)
+                                    398 ;src/story_controller.c:61: move_cursor();
+                                    399 ;src/story_controller.c:62: }
+      000166 C3r81r00               400 	jp	_move_cursor
+                                    401 ;src/story_controller.c:64: void transition_to_page(int8_t page) {
+                                    402 ;	---------------------------------
+                                    403 ; Function transition_to_page
+                                    404 ; ---------------------------------
+      000169                        405 _transition_to_page::
+                                    406 ;src/story_controller.c:65: title_phase = false;
+      000169 21r03r00               407 	ld	hl, #_title_phase
+      00016C 36 00                  408 	ld	(hl), #0x00
+                                    409 ;src/story_controller.c:66: transition_phase = false;
+      00016E 21r05r00               410 	ld	hl, #_transition_phase
+      000171 36 00                  411 	ld	(hl), #0x00
+                                    412 ;src/story_controller.c:67: page_phase = true;
+      000173 21r04r00               413 	ld	hl, #_page_phase
+      000176 36 01                  414 	ld	(hl), #0x01
+                                    415 ;src/story_controller.c:68: current_page = page;
+      000178 F8 02                  416 	ldhl	sp,	#2
+      00017A 7E                     417 	ld	a, (hl)
+      00017B EAr00r00               418 	ld	(#_current_page),a
+                                    419 ;src/story_controller.c:69: current_section = 0;
+      00017E 21r01r00               420 	ld	hl, #_current_section
+      000181 36 00                  421 	ld	(hl), #0x00
+                                    422 ;src/story_controller.c:70: current_transition = 0;
+      000183 21r02r00               423 	ld	hl, #_current_transition
+      000186 36 00                  424 	ld	(hl), #0x00
+                                    425 ;src/story_controller.c:71: }
+      000188 C9                     426 	ret
+                                    427 ;src/story_controller.c:73: void next_section() {
+                                    428 ;	---------------------------------
+                                    429 ; Function next_section
+                                    430 ; ---------------------------------
+      000189                        431 _next_section::
+                                    432 ;src/story_controller.c:74: if (current_section < get_num_sections(current_page)) {
+      000189 FAr00r00               433 	ld	a, (#_current_page)
+      00018C F5                     434 	push	af
+      00018D 33                     435 	inc	sp
+      00018E CDr00r00               436 	call	_get_num_sections
+      000191 33                     437 	inc	sp
+      000192 21r01r00               438 	ld	hl, #_current_section
+      000195 7E                     439 	ld	a, (hl)
+      000196 93                     440 	sub	a, e
+      000197 30 01                  441 	jr	NC, 00102$
+                                    442 ;src/story_controller.c:75: current_section++;
+      000199 34                     443 	inc	(hl)
+      00019A                        444 00102$:
+                                    445 ;src/story_controller.c:77: if (current_section >= get_num_sections(current_page)) {
+      00019A FAr00r00               446 	ld	a, (#_current_page)
+      00019D F5                     447 	push	af
+      00019E 33                     448 	inc	sp
+      00019F CDr00r00               449 	call	_get_num_sections
+      0001A2 33                     450 	inc	sp
+      0001A3 FAr01r00               451 	ld	a, (#_current_section)
+      0001A6 93                     452 	sub	a, e
+      0001A7 38 31                  453 	jr	C, 00109$
+                                    454 ;src/story_controller.c:78: if (get_num_transitions(current_page) > 0) {
+      0001A9 FAr00r00               455 	ld	a, (#_current_page)
+      0001AC F5                     456 	push	af
+      0001AD 33                     457 	inc	sp
+      0001AE CDr00r00               458 	call	_get_num_transitions
+      0001B1 33                     459 	inc	sp
+      0001B2 7B                     460 	ld	a, e
+      0001B3 B7                     461 	or	a, a
+      0001B4 28 0C                  462 	jr	Z, 00106$
+                                    463 ;src/story_controller.c:79: page_phase = false;
+      0001B6 21r04r00               464 	ld	hl, #_page_phase
+      0001B9 36 00                  465 	ld	(hl), #0x00
+                                    466 ;src/story_controller.c:80: transition_phase = true;
+      0001BB 21r05r00               467 	ld	hl, #_transition_phase
+      0001BE 36 01                  468 	ld	(hl), #0x01
+      0001C0 18 18                  469 	jr	00109$
+      0001C2                        470 00106$:
+                                    471 ;src/story_controller.c:82: else if (!is_end_card(current_page)) {
+      0001C2 FAr00r00               472 	ld	a, (#_current_page)
+      0001C5 F5                     473 	push	af
+      0001C6 33                     474 	inc	sp
+      0001C7 CDr00r00               475 	call	_is_end_card
+      0001CA 33                     476 	inc	sp
+      0001CB CB 43                  477 	bit	0, e
+      0001CD 20 0B                  478 	jr	NZ, 00109$
+                                    479 ;src/story_controller.c:83: current_page++;
+      0001CF 21r00r00               480 	ld	hl, #_current_page
+      0001D2 34                     481 	inc	(hl)
+                                    482 ;src/story_controller.c:84: transition_to_page(current_page);
+      0001D3 7E                     483 	ld	a, (hl)
+      0001D4 F5                     484 	push	af
+      0001D5 33                     485 	inc	sp
+      0001D6 CDr69r01               486 	call	_transition_to_page
+      0001D9 33                     487 	inc	sp
+      0001DA                        488 00109$:
+                                    489 ;src/story_controller.c:87: display_current_text();
+      0001DA CDrF0r01               490 	call	_display_current_text
+                                    491 ;src/story_controller.c:88: if (transition_phase) {
+      0001DD 21r05r00               492 	ld	hl, #_transition_phase
+      0001E0 CB 46                  493 	bit	0, (hl)
+                                    494 ;src/story_controller.c:89: move_cursor();
+      0001E2 C2r81r00               495 	jp	NZ,_move_cursor
+                                    496 ;src/story_controller.c:91: }
+      0001E5 C9                     497 	ret
+                                    498 ;src/story_controller.c:93: void previous_section() {
+                                    499 ;	---------------------------------
+                                    500 ; Function previous_section
+                                    501 ; ---------------------------------
+      0001E6                        502 _previous_section::
+                                    503 ;src/story_controller.c:94: if (current_section > 0) {
+      0001E6 21r01r00               504 	ld	hl, #_current_section
+      0001E9 7E                     505 	ld	a, (hl)
+      0001EA B7                     506 	or	a, a
+      0001EB C8                     507 	ret	Z
+                                    508 ;src/story_controller.c:95: current_section--;
+      0001EC 35                     509 	dec	(hl)
+                                    510 ;src/story_controller.c:96: display_current_text();
+                                    511 ;src/story_controller.c:98: }
+      0001ED C3rF0r01               512 	jp	_display_current_text
+                                    513 ;src/story_controller.c:100: void display_current_text() {
+                                    514 ;	---------------------------------
+                                    515 ; Function display_current_text
+                                    516 ; ---------------------------------
+      0001F0                        517 _display_current_text::
+                                    518 ;src/story_controller.c:101: clear_screen();
+      0001F0 CDr00r00               519 	call	_clear_screen
+                                    520 ;src/story_controller.c:102: if (title_phase) {
+      0001F3 21r03r00               521 	ld	hl, #_title_phase
+      0001F6 CB 46                  522 	bit	0, (hl)
+                                    523 ;src/story_controller.c:103: display_title();
+      0001F8 C2r0Br00               524 	jp	NZ,_display_title
+                                    525 ;src/story_controller.c:105: else if (page_phase) {
+      0001FB 21r04r00               526 	ld	hl, #_page_phase
+      0001FE CB 46                  527 	bit	0, (hl)
+                                    528 ;src/story_controller.c:106: display_page_section();
+      000200 C2r1Cr00               529 	jp	NZ,_display_page_section
+                                    530 ;src/story_controller.c:108: else if (transition_phase) {
+      000203 21r05r00               531 	ld	hl, #_transition_phase
+      000206 CB 46                  532 	bit	0, (hl)
+                                    533 ;src/story_controller.c:109: display_transition_options();
+      000208 C2r2Fr00               534 	jp	NZ,_display_transition_options
+                                    535 ;src/story_controller.c:111: }
+      00020B C9                     536 	ret
+                                    537 ;src/story_controller.c:113: void handle_title_input() {
+                                    538 ;	---------------------------------
+                                    539 ; Function handle_title_input
+                                    540 ; ---------------------------------
+      00020C                        541 _handle_title_input::
+                                    542 ;src/story_controller.c:114: switch(joypad()) {
+      00020C CDr00r00               543 	call	_joypad
+      00020F 7B                     544 	ld	a, e
+      000210 D6 10                  545 	sub	a, #0x10
+      000212 C0                     546 	ret	NZ
+                                    547 ;src/story_controller.c:116: waitpadup();
+      000213 CDr00r00               548 	call	_waitpadup
+                                    549 ;src/story_controller.c:117: title_phase = false;
+      000216 21r03r00               550 	ld	hl, #_title_phase
+      000219 36 00                  551 	ld	(hl), #0x00
+                                    552 ;src/story_controller.c:118: page_phase = true;
+      00021B 21r04r00               553 	ld	hl, #_page_phase
+      00021E 36 01                  554 	ld	(hl), #0x01
+                                    555 ;src/story_controller.c:119: display_current_text();
+                                    556 ;src/story_controller.c:123: }
+                                    557 ;src/story_controller.c:124: }
+      000220 C3rF0r01               558 	jp	_display_current_text
+                                    559 ;src/story_controller.c:126: void handle_page_input() {
+                                    560 ;	---------------------------------
+                                    561 ; Function handle_page_input
+                                    562 ; ---------------------------------
+      000223                        563 _handle_page_input::
+                                    564 ;src/story_controller.c:127: switch(joypad()) {
+      000223 CDr00r00               565 	call	_joypad
+      000226 7B                     566 	ld	a, e
+      000227 FE 01                  567 	cp	a, #0x01
+      000229 28 05                  568 	jr	Z, 00101$
+      00022B D6 02                  569 	sub	a, #0x02
+      00022D 28 07                  570 	jr	Z, 00102$
+      00022F C9                     571 	ret
+                                    572 ;src/story_controller.c:128: case J_RIGHT:
+      000230                        573 00101$:
+                                    574 ;src/story_controller.c:129: waitpadup();
+      000230 CDr00r00               575 	call	_waitpadup
+                                    576 ;src/story_controller.c:130: next_section();
+                                    577 ;src/story_controller.c:131: break;
+      000233 C3r89r01               578 	jp	_next_section
+                                    579 ;src/story_controller.c:132: case J_LEFT:
+      000236                        580 00102$:
+                                    581 ;src/story_controller.c:133: waitpadup();
+      000236 CDr00r00               582 	call	_waitpadup
+                                    583 ;src/story_controller.c:134: previous_section();
+                                    584 ;src/story_controller.c:138: }
+                                    585 ;src/story_controller.c:139: }
+      000239 C3rE6r01               586 	jp	_previous_section
+                                    587 ;src/story_controller.c:141: void handle_transition_input() {
+                                    588 ;	---------------------------------
+                                    589 ; Function handle_transition_input
+                                    590 ; ---------------------------------
+      00023C                        591 _handle_transition_input::
+                                    592 ;src/story_controller.c:142: switch(joypad()) {
+      00023C CDr00r00               593 	call	_joypad
+      00023F 7B                     594 	ld	a, e
+      000240 FE 02                  595 	cp	a, #0x02
+      000242 28 0D                  596 	jr	Z, 00101$
+      000244 FE 04                  597 	cp	a, #0x04
+      000246 28 19                  598 	jr	Z, 00102$
+      000248 FE 08                  599 	cp	a, #0x08
+      00024A 28 1B                  600 	jr	Z, 00103$
+      00024C D6 10                  601 	sub	a, #0x10
+      00024E 28 1D                  602 	jr	Z, 00104$
+      000250 C9                     603 	ret
+                                    604 ;src/story_controller.c:143: case J_LEFT:
+      000251                        605 00101$:
+                                    606 ;src/story_controller.c:144: waitpadup();
+      000251 CDr00r00               607 	call	_waitpadup
+                                    608 ;src/story_controller.c:145: transition_phase = false;
+      000254 21r05r00               609 	ld	hl, #_transition_phase
+      000257 36 00                  610 	ld	(hl), #0x00
+                                    611 ;src/story_controller.c:146: page_phase = true;
+      000259 21r04r00               612 	ld	hl, #_page_phase
+                                    613 ;src/story_controller.c:147: previous_section();
+                                    614 ;src/story_controller.c:148: break;
+      00025C 36 01                  615 	ld	(hl), #0x01
+      00025E C3rE6r01               616 	jp	_previous_section
+                                    617 ;src/story_controller.c:149: case J_UP:
+      000261                        618 00102$:
+                                    619 ;src/story_controller.c:150: waitpadup();
+      000261 CDr00r00               620 	call	_waitpadup
+                                    621 ;src/story_controller.c:151: move_cursor_up();
+                                    622 ;src/story_controller.c:152: break;
+      000264 C3r28r01               623 	jp	_move_cursor_up
+                                    624 ;src/story_controller.c:153: case J_DOWN:
+      000267                        625 00103$:
+                                    626 ;src/story_controller.c:154: waitpadup();
+      000267 CDr00r00               627 	call	_waitpadup
+                                    628 ;src/story_controller.c:155: move_cursor_down();
+                                    629 ;src/story_controller.c:156: break;
+      00026A C3r34r01               630 	jp	_move_cursor_down
+                                    631 ;src/story_controller.c:157: case J_A:
+      00026D                        632 00104$:
+                                    633 ;src/story_controller.c:158: waitpadup();
+      00026D CDr00r00               634 	call	_waitpadup
+                                    635 ;src/story_controller.c:159: transition_to_page(get_transition_destination(current_page, current_transition));
+      000270 FAr02r00               636 	ld	a, (#_current_transition)
+      000273 67                     637 	ld	h, a
+      000274 FAr00r00               638 	ld	a, (#_current_page)
+      000277 6F                     639 	ld	l, a
+      000278 E5                     640 	push	hl
+      000279 CDr00r00               641 	call	_get_transition_destination
+      00027C E1                     642 	pop	hl
+      00027D 7B                     643 	ld	a, e
+      00027E F5                     644 	push	af
+      00027F 33                     645 	inc	sp
+      000280 CDr69r01               646 	call	_transition_to_page
+      000283 33                     647 	inc	sp
+                                    648 ;src/story_controller.c:160: display_current_text();
+                                    649 ;src/story_controller.c:164: }
+                                    650 ;src/story_controller.c:165: }
+      000284 C3rF0r01               651 	jp	_display_current_text
+                                    652 ;src/story_controller.c:167: void handle_input() {
+                                    653 ;	---------------------------------
+                                    654 ; Function handle_input
+                                    655 ; ---------------------------------
+      000287                        656 _handle_input::
+                                    657 ;src/story_controller.c:168: if (title_phase) {
+      000287 21r03r00               658 	ld	hl, #_title_phase
+      00028A CB 46                  659 	bit	0, (hl)
+                                    660 ;src/story_controller.c:169: handle_title_input();
+      00028C C2r0Cr02               661 	jp	NZ,_handle_title_input
+                                    662 ;src/story_controller.c:171: else if (page_phase) {
+      00028F 21r04r00               663 	ld	hl, #_page_phase
+      000292 CB 46                  664 	bit	0, (hl)
+                                    665 ;src/story_controller.c:172: handle_page_input();
+      000294 C2r23r02               666 	jp	NZ,_handle_page_input
+                                    667 ;src/story_controller.c:174: else if (transition_phase) {
+      000297 21r05r00               668 	ld	hl, #_transition_phase
+      00029A CB 46                  669 	bit	0, (hl)
+                                    670 ;src/story_controller.c:175: handle_transition_input();
+      00029C C2r3Cr02               671 	jp	NZ,_handle_transition_input
+                                    672 ;src/story_controller.c:177: }
+      00029F C9                     673 	ret
+                                    674 	.area _CODE
+                                    675 	.area _INITIALIZER
+      000000                        676 __xinit__current_page:
+      000000 00                     677 	.db #0x00	; 0
+      000001                        678 __xinit__current_section:
+      000001 00                     679 	.db #0x00	; 0
+      000002                        680 __xinit__current_transition:
+      000002 00                     681 	.db #0x00	; 0
+      000003                        682 __xinit__title_phase:
+      000003 01                     683 	.db #0x01	;  1
+      000004                        684 __xinit__page_phase:
+      000004 00                     685 	.db #0x00	;  0
+      000005                        686 __xinit__transition_phase:
+      000005 00                     687 	.db #0x00	;  0
+                                    688 	.area _CABS (ABS)

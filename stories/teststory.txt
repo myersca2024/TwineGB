@@ -1,0 +1,16 @@
+@ A Multi-Line Title About Going East or West \;
+{
+  # 0 \;
+  & This is the text for my TwineGB game. There are two options ahead: to go east or west. You may choose whichever path you want. AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAAAAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA AAAAA  \;
+  ! Go west. //! 1 \;
+  ! Go east. //! 2 \;
+}
+{
+  # 1 \;
+  & You went west. Congratulations. How about you try going back east now. \;
+  ! Go east. This is definitely the way you want to go, trust me. //! 2 \;
+}
+{
+  # 2 \;
+  & You went east. This is a way to go, certainly. \;
+}
