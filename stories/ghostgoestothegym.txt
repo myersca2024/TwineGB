@@ -103,7 +103,7 @@
     ! Attempt to investigate. //! 22 \;
 }
 {
-    #20 \;
+    # 20 \;
     & \"That's fine, I'll just not answer the message. I'm not this Gordie guy anyways.\" \"That's right. I'm Gordie, and you're occupying my body. Now answer my mother.\" \;
 }
 {
